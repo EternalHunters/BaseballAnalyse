@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<div id="chartContainer">
+  <script src="http://d3js.org/d3.v4.min.js"></script>
+  <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+  <script src="/index.js"></script>
+  <link href="/index.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+      var ball_data = null;
+      d3.csv("/baseball_data.csv", function (data) {
+          for (var i=0, m=data.length;i<m;i++){
+          //create new variable "height_range"
+            if (65<=Number(data[i]["height"])&Number(data[i]["height"])<70){
+              data[i]["height_range"] = "[65-70)";
+            }else if (70<=Number(data[i]["height"])&Number(data[i]["height"])<75){
+              data[i]["height_range"] = "[70-75)";
+            }else if (75<=Number(data[i]["height"])&Number(data[i]["height"])<=80){
+              data[i]["height_range"] = "[75-80]";
+            }
+          //create new variable "height_range"
+            if (140<=Number(data[i]["weight"])&Number(data[i]["weight"])<160){
+              data[i]["weight_range"] = "[140-160)";
+            }else if (160<=Number(data[i]["weight"])&Number(data[i]["height"])<180){
+              data[i]["weight_range"] = "[160-180)";
+            }else if (180<=Number(data[i]["weight"])&Number(data[i]["weight"])<200){
+              data[i]["weight_range"] = "[180-200)";
+            }else if (200<=Number(data[i]["weight"])&Number(data[i]["weight"])<220){
+              data[i]["weight_range"] = "[200-220)";
+            }else if (220<=Number(data[i]["height"])&Number(data[i]["height"])<=250){
+              data[i]["weight_range"] = "[220-250]";
+            }
+          //create new variable "BMI"
+            if ((Number(data[i]["weight"])*0.453/Number(data[i]["height"])/Number(data[i]["height"])/0.00064516)<18.5){
+              data[i]["BMI"]="过轻";
+            }else if ((Number(data[i]["weight"])*0.453/Number(data[i]["height"])/Number(data[i]["height"])/0.00064516)>=18.5&(Number(data[i]["weight"])*0.453/Number(data[i]["height"])/Number(data[i]["height"])/0.00064516)<24){
+              data[i]["BMI"]="正常";
+            }else if ((Number(data[i]["weight"])*0.453/Number(data[i]["height"])/Number(data[i]["height"])/0.00064516)>=24&(Number(data[i]["weight"])*0.453/Number(data[i]["height"])/Number(data[i]["height"])/0.00064516)<28){
+              data[i]["BMI"]="过重";
+            }else if ((Number(data[i]["weight"])*0.453/Number(data[i]["height"])/Number(data[i]["height"])/0.00064516)>=28&(Number(data[i]["weight"])*0.453/Number(data[i]["height"])/Number(data[i]["height"])/0.00064516)<=32){
+              data[i]["BMI"]="肥胖";
+            }else if ((Number(data[i]["weight"])*0.453/Number(data[i]["height"])/Number(data[i]["height"])/0.00064516)>32){
+              data[i]["BMI"]="非常肥胖";
+            }
+          }
+      draw(0, data); 
+      d3.select("#chartContainer").append("div").attr("id", "button-list").attr("class", "row");
+      d3.select("#button-list").append("a").attr("class", "md-button").attr("href", "/").text("按惯用手划分");
+      d3.select("#button-list").append("a").attr("class", "md-button").attr("href", "/index-height.html").text("按身高划分");
+      d3.select("#button-list").append("a").attr("class", "md-button").attr("href", "/index-weight.html").text("按体重划分");
+      d3.select("#button-list").append("a").attr("class", "md-button").attr("href", "/index-bmi.html").text("按身体质量划分");
+      });
+  </script>
+</div>
+</html>
